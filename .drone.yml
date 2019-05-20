@@ -554,7 +554,7 @@ trigger:
 
 ---
 kind: pipeline
-name: int-sqlite-sharing
+name: int-sqlite-sharing-set-1
 
 steps:
   - name: integration-sharing
@@ -572,7 +572,109 @@ steps:
 
       # Run integration tests
       - cd tests/integration/
-      - bash run.sh features/sharing
+      - bash run.sh --tags set-1 features/sharing
+
+services:
+  - name: cache
+    image: redis
+
+trigger:
+  branch:
+    - master
+    - stable*
+  event:
+    - pull_request
+    - push
+
+---
+kind: pipeline
+name: int-sqlite-sharing-set-2
+
+steps:
+  - name: integration-sharing
+    image: nextcloudci/php7.1:php7.1-16
+    environment:
+      APP_NAME: spreed
+      CORE_BRANCH: master
+      DATABASEHOST: sqlite
+    commands:
+      - wget https://raw.githubusercontent.com/nextcloud/travis_ci/master/before_install.sh
+      - bash ./before_install.sh $APP_NAME $CORE_BRANCH $DATABASEHOST
+      - cd ../server
+      - ./occ app:enable $APP_NAME
+      - cd apps/$APP_NAME
+
+      # Run integration tests
+      - cd tests/integration/
+      - bash run.sh --tags set-2 features/sharing
+
+services:
+  - name: cache
+    image: redis
+
+trigger:
+  branch:
+    - master
+    - stable*
+  event:
+    - pull_request
+    - push
+
+---
+kind: pipeline
+name: int-sqlite-sharing-set-3
+
+steps:
+  - name: integration-sharing
+    image: nextcloudci/php7.1:php7.1-16
+    environment:
+      APP_NAME: spreed
+      CORE_BRANCH: master
+      DATABASEHOST: sqlite
+    commands:
+      - wget https://raw.githubusercontent.com/nextcloud/travis_ci/master/before_install.sh
+      - bash ./before_install.sh $APP_NAME $CORE_BRANCH $DATABASEHOST
+      - cd ../server
+      - ./occ app:enable $APP_NAME
+      - cd apps/$APP_NAME
+
+      # Run integration tests
+      - cd tests/integration/
+      - bash run.sh --tags set-3 features/sharing
+
+services:
+  - name: cache
+    image: redis
+
+trigger:
+  branch:
+    - master
+    - stable*
+  event:
+    - pull_request
+    - push
+
+---
+kind: pipeline
+name: int-sqlite-sharing-set-4
+
+steps:
+  - name: integration-sharing
+    image: nextcloudci/php7.1:php7.1-16
+    environment:
+      APP_NAME: spreed
+      CORE_BRANCH: master
+      DATABASEHOST: sqlite
+    commands:
+      - wget https://raw.githubusercontent.com/nextcloud/travis_ci/master/before_install.sh
+      - bash ./before_install.sh $APP_NAME $CORE_BRANCH $DATABASEHOST
+      - cd ../server
+      - ./occ app:enable $APP_NAME
+      - cd apps/$APP_NAME
+
+      # Run integration tests
+      - cd tests/integration/
+      - bash run.sh --tags set-4 features/sharing
 
 services:
   - name: cache
